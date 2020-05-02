@@ -91,6 +91,13 @@
                 staticVariable: initialized
                 finalVariable: This is Final
   ```
+# Object Graph
 
+ - In the below example ClassA has ClassB object and ClassB has ClassC object 
 
 ![example-uml](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/u-verma/serialization/master/example.iuml)
+
+ - If Class A gets serialized all the object associated in class A, also gets serialized. 
+ - This chain of object which gets serialized is called Object graph.
+ - `Please Note` All the Objects which are part of Object graph `must` implement the `Serializable` Interface.
+ Otherwise, a runtime exception will occur.

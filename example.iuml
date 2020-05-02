@@ -1,17 +1,13 @@
 @startuml
-
-object A {
+Object A {
   B b = new B();
 }
-
-object B{
+Object B{
  C c = new C();
 }
-
-object C{
- int intanceVariable =10
+Object C{
+ int instanceVariable = 10;
 }
-
-A -> B
-B -> C
+A -> B : contains
+B -> C : contains
 @enduml
