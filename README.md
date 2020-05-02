@@ -95,7 +95,7 @@
 
  - In the below example ClassA has ClassB object and ClassB has ClassC object 
 
-![example-uml](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/u-verma/serialization/master/example.iuml)
+    ![example-uml](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/u-verma/serialization/master/example.iuml)
 
  - If Class A gets serialized all the object associated with class A, also gets serialized. 
  - This chain of object which gets serialized is called Object graph.
@@ -127,7 +127,7 @@
 
  - See it in action below.
  
- ![customSerialization](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/u-verma/serialization/master/customSerialization.iuml)
+    ![customSerialization](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/u-verma/serialization/master/customSerialization.iuml)
 
  ```java
     
