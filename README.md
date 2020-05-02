@@ -97,7 +97,82 @@
 
 ![example-uml](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/u-verma/serialization/master/example.iuml)
 
- - If Class A gets serialized all the object associated in class A, also gets serialized. 
+ - If Class A gets serialized all the object associated with class A, also gets serialized. 
  - This chain of object which gets serialized is called Object graph.
- - `Please Note` All the Objects which are part of Object graph `must` implement the `Serializable` Interface.
+ - `Please Note` All the Objects which are part of Object graph `must` implements the `Serializable` Interface.
  Otherwise, a runtime exception will occur.
+ 
+# Custom Serialization Deserialization
+ - Custom serialization required to save the sensitive information in the serialized object for security reason.
+ - if a variable declared as a transient then the information get lost during serialization. 
+ Custom serialization, can help to secure that information and pass it during the process.
+ - JVM Look for the below method signature, in the class, which is being serialized. 
+ If present then JVM will no longer be responsible for the `default serialization`.
+  ```java
+        private void writeObject(ObjectOutputStream oos) throws Exception 
+  ```
+ - It is possible to call the default serialization inside `writeObject` method by calling below method.
+  ```java
+        oos.defaultWriteObject();
+  ```
+- JVM Look for the below method signature, in the class, which is being `deserialized`. 
+ If present then JVM will no longer be responsible for the `default serialization`.
+ ```java
+        private void readObject(ObjectInputStream ois) throws Exception 
+ ```
+ - It is possible to call the default deserialization inside `readObject` method by calling below method.
+ ```java
+        oos.defaultReadObject();
+ ```
+
+ - See it in action below.
+ 
+ ![customSerialization](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/u-verma/serialization/master/customSerialization.iuml)
+
+ ```java
+    
+        import java.io.FileInputStream;
+        import java.io.FileOutputStream;
+        import java.io.ObjectInputStream;
+        import java.io.ObjectOutputStream;
+        import java.io.Serializable;
+        import java.util.Base64;
+        
+        public class CustomSerialization {
+            public static void main(String[] args) throws Exception {
+                Account account = new Account();
+                FileOutputStream fos = new FileOutputStream("account.txt");
+                ObjectOutputStream oos = new ObjectOutputStream(fos);
+                oos.writeObject(account);
+        
+                FileInputStream fis = new FileInputStream("account.txt");
+                ObjectInputStream ois = new ObjectInputStream(fis);
+                Account account1 = (Account) ois.readObject();
+                System.out.println("password: " + account1.password);
+            }
+        }
+        
+        class Account implements Serializable{
+            String userName = "TestAccount";
+            transient String password = "password";
+            // Before executing default serialization JVM look for the this method signature and call it.
+            private void writeObject(ObjectOutputStream oos) throws Exception{
+                // This line tell JVM to Perform the default Serialization
+                oos.defaultWriteObject();
+                // Encrypting the original password.
+                byte[] encPassword = Base64.getEncoder().encode(this.password.getBytes());
+                // write the encrypted password in serialized object
+                oos.writeObject(encPassword);
+            }
+        
+            // Before executing default Deserialization JVM look for the this method signature and call it.
+            private void readObject(ObjectInputStream ois) throws Exception{
+                // This line tell JVM to Perform the default deserialization
+                ois.defaultReadObject();
+                // write the encrypted password in serialized object
+                byte[] encPassword = (byte[]) ois.readObject();
+                // Decrypting the original password.
+                password = new String(Base64.getDecoder().decode(encPassword));
+            }
+        }   
+ ```

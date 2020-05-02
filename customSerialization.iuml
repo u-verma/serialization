@@ -1,0 +1,42 @@
+@startuml
+
+Object Account{
+userName = TestAccount;
+password = password;
+}
+
+folder folder [
+account.txt
+----
+Account
+====
+userName = TestAccount
+password = null
+====
+EncPassword = 010101
+]
+
+usecase usecase [
+String
+----
+EncPassword
+]
+
+Object Account01{
+userName = TestAccount;
+password = password;
+}
+
+usecase usecase1 [
+String
+----
+DecPassword
+]
+
+usecase1 -> Account01 : OverrideDefaultValue
+Account -> folder : defaultSerialization
+usecase -> folder : customSerialization
+folder -> usecase1 : customSerialization
+folder -> Account01 : defaultDeserialization
+
+@enduml
