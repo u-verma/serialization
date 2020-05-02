@@ -91,11 +91,6 @@
                 staticVariable: initialized
                 finalVariable: This is Final
   ```
-@startuml component
-actor client
-node app
-database db
 
-db -> app
-app -> client
-@enduml
+
+![example-uml](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/u-verma/serialization/master/example.iuml)

@@ -1,0 +1,17 @@
+@startuml
+
+object A {
+  B b = new B();
+}
+
+object B{
+ C c = new C();
+}
+
+object C{
+ int intanceVariable =10
+}
+
+A -> B
+B -> C
+@enduml
