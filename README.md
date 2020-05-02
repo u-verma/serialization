@@ -182,7 +182,7 @@
  - That's why the Object class doesn't implement serializable.
  - With the above in mind it is clear that a child can be serializable even though the parent is not. 
  - Few key point to remember when dealing with non serializable parent.
-    - While serializing the child which has inherited variable of non serialized class, are being stored with their default value.
+    - While serializing the child which has inherited variable of non serialized class, store the default value of inherited variable.
     - During deserialization, JVM executes the `instance control flow` in every non serializable parent 
     and share its instance variable to the current object. 
     - `Please Note` *instance control flow* will not be executed in child as the object of child gets created via deserialization.
