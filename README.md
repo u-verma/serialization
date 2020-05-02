@@ -176,3 +176,42 @@
             }
         }   
  ```
+
+# Inheritance in serialization
+ - If the parent class implements serializable interface, all the child class will become serializable because of inheritance.
+ - That's why the Object class doesn't implement serializable.
+ - With the above in mind it is clear that a child can be serializable even though the parent is not. 
+ - Few key point to remember when dealing with non serializable parent.
+    - While serializing the child which has inherited variable of non serialized class, are being stored with their default value.
+    - During deserialization, JVM executes the `instance control flow` in every non serializable parent 
+    and share its instance variable to the current object. 
+    - `Please Note` *instance control flow* will not be executed in child as the object of child gets created via deserialization.
+    - As JVM executes the `instance control flow` during deserialization, default constructor should be present for all the non serializable parent.
+
+  ```java
+            public class SerializationWithInheritance {
+                public static void main(String[] args) throws Exception{
+                    Engineer engineer = new Engineer();
+                    engineer.companyName = "Tech";
+                    engineer.department="cards";
+                    // Serialization
+                    FileOutputStream fos = new FileOutputStream("engineer.txt");
+                    ObjectOutputStream oos = new ObjectOutputStream(fos);
+                    oos.writeObject(engineer);
+            
+                    // Deserialization
+                    FileInputStream fis = new FileInputStream("engineer.txt");
+                    ObjectInputStream ois = new ObjectInputStream(fis);
+                    Engineer engineer01 = (Engineer) ois.readObject();
+                    System.out.println("The inherited variable value: " + engineer01.companyName);
+                }
+            }
+            
+            class Employees  {
+                String companyName = "tech-solution";
+            }
+            
+            class Engineer extends Employees implements Serializable{
+                String department = "payments";
+            }
+  ```  
