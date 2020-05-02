@@ -91,3 +91,11 @@
                 staticVariable: initialized
                 finalVariable: This is Final
   ```
+@startuml component
+actor client
+node app
+database db
+
+db -> app
+app -> client
+@enduml
