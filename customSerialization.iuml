@@ -36,7 +36,7 @@ DecPassword
 usecase1 -> Account01 : OverrideDefaultValue
 Account -> folder : defaultSerialization
 usecase -> folder : customSerialization
-folder -> usecase1 : customSerialization
+folder -> usecase1 : customDeserialization
 folder -> Account01 : defaultDeserialization
 
 @enduml
