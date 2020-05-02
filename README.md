@@ -49,9 +49,9 @@
  - If the deserialization performed in another JVM then the default value `initialized` will be printed for static variable.
  - During serialization static member should be handled carefully else it will give unexpected behavior and hard to debug.
  - If a static variable declared as a `transient` then it has no impact as static member do not participate in serialization.
- - As `final` variable is constant and gets replaced by its value at compile time they participate in serialization by its value and not as a variable.
- - As `final` is not participating as variable, declaring it as `transient` will not have any impact.
- - `Imp Note` the sensitive information should not be marked as final if it is going to serialize as its state will always be saved and transient can't protect it.   
+ - As, `final` variable is a constant which gets replaced by its value at the compile time, they participate in serialization by its value and not as a variable.
+ - As, the `final` declared variable do not participate as a variable during the serialization, declaring it as `transient` will not have any impact.
+ - `Imp Note` the sensitive information should not be marked as final, if it is going to be serialized. its state will always be saved and transient can't protect it.   
  
   ```java
         public class Person implements Serializable{
