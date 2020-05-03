@@ -1,13 +1,13 @@
 # Serialization
 
- - The process of writing the `state of an object` to a `file` is serialization.
+ - Storing, saving or transmitting the `state of an object` in binary form, is known as serialization.
  - Serialization can be achieved Using `FileOutputStream` and `ObjectOutputStream` classes.
  - The class must `implements Serializable` in order to get Serialize.
  - Serializable interface present in `java.io` package. It doesn't contain any method. It is a marker interface.
 
 # Deserialization 
  - The process of reading the `state of an object` from the `file` is deserialization. 
- Strictly speaking it is the process of converting an object from file or network supported form to Java supported form.
+ Strictly speaking it is the process of converting an object from, file or network supported form to Java supported form.
  - Deserialization can be achieved Using `FileInputStream` and `ObjectInputStream` classes.
  
   ```java
