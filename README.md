@@ -44,7 +44,7 @@
  - For a `transient` variable compiler ignore the original value and save its default value to the serialized Object.
  - `static` variable is not part of Instance hence they don't participate in the serialization. 
  During Deserialization compiler read there value from class level memory.
- - `Imp Note` If run the below code in the same JVM, the `Re-Initialized` will get printed as during the deserialization 
+ - `Imp Note` If run the below code in the same JVM, the `Re-Initialized` will get printed, as during the deserialization 
  JVM will be able to read the value from static data memory which will be shared by each object.
  - If the deserialization performed in another JVM then the default value `initialized` will be printed for static variable.
  - During serialization static member should be handled carefully else it will give unexpected behavior and hard to debug.
@@ -101,6 +101,16 @@
  - This chain of object which gets serialized is called Object graph.
  - `Please Note` All the Objects which are part of Object graph `must` implements the `Serializable` Interface.
  Otherwise, a runtime exception will occur.
+ - In above example, if Class B doesn't want to participant in serialization then 
+ it can implement the below method and can throw the exception inside it.
+    
+ ```java
+       private void writeObject(ObjectOutputStream oos) throws Exception {
+           throw new NotSerializableException("This class can't be serialized");
+       }   
+ ```
+ - First JVM look for the above method signature, in the class, which is being serialized before performing `default serialization`.
+    If present then JVM will no longer perform `default serialization` and execute above method .
  
 # Custom Serialization Deserialization
  - Custom serialization required to save the sensitive information in the serialized object for security reason.
@@ -108,6 +118,7 @@
  Custom serialization, can help to secure that information and pass it during the process.
  - JVM Look for the below method signature, in the class, which is being serialized. 
  If present then JVM will no longer be responsible for the `default serialization`.
+ 
   ```java
         private void writeObject(ObjectOutputStream oos) throws Exception 
   ```
@@ -119,6 +130,7 @@
   ```
 - JVM Look for the below method signature, in the class, which is being `deserialized`. 
  If present then JVM will no longer be responsible for the `default serialization`.
+ 
  ```java
         private void readObject(ObjectInputStream ois) throws Exception 
  ```
