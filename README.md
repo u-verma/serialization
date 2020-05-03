@@ -102,7 +102,7 @@
  - `Please Note` All the Objects which are part of Object graph `must` implements the `Serializable` Interface.
  Otherwise, a runtime exception will occur.
  - In above example, if Class B doesn't want to participant in serialization then 
- it can implement the below method and can throw the exception inside it.
+ it can implement the below method and can throw the exception inside it. it will in-force Class A to declare it as a `transient`.``
     
  ```java
        private void writeObject(ObjectOutputStream oos) throws Exception {
