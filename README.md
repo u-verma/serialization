@@ -349,3 +349,19 @@
             }
   ```
 # serialVersionUID
+ - The serialization runtime associates with each serializable class a version number, called a serialVersionUID.
+ - serialVersionUID used during deserialization to verify that the sender and receiver of a serialized object 
+ have loaded classes for that object that are compatible with respect to serialization. 
+ - If the receiver has loaded a class for the object that has a different serialVersionUID than that of the corresponding sender's class, 
+ then deserialization will result in an InvalidClassException. 
+ - A serializable class can declare its own serialVersionUID explicitly by declaring a field named serialVersionUID that must be static, final, and of type long.
+  ```java
+        ANY-ACCESS-MODIFIER static final long serialVersionUID = 42L;
+  ```
+ - Although any modifier will work but recommended to use `private` as it will avoid polluting the child class.
+ - If a serializable class does not explicitly declare a serialVersionUID, then the serialization runtime will calculate a default serialVersionUID value for that class based on various aspects of the class, as described in the Java(TM) Object Serialization Specification.
+ - The deserialization of the object will fail in different JVM as both JVM will generate different random `serialVersionUID`.
+ - All serializable classes must explicitly declare serialVersionUID values, since the default serialVersionUID computation is highly sensitive to class details that may vary depending on compiler implementations, and can thus result in unexpected InvalidClassExceptions during deserialization. 
+ - Even though, if the state of the object changed in between serialization/deserialization and serialVersionUID is unchanged. The saved object can be deserialize properly. 
+ Extra added property will be initialized with default value. Removed property will be ignored during deserialization. 
+ - Change in `serialVersionUID` will in-force all the consumer to update the version of .class file at their end else the deserialization will fail.

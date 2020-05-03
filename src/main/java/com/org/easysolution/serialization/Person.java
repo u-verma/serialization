@@ -9,7 +9,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 public class Person implements Serializable {
-    static final long serialVersionUID = 167632477823l;
+    private static final long serialVersionUID = 167632477823L;
     int instanceVariable = 10;
     transient String transientVariable = "I am Transient";
     static String staticVariable = "initialized";
@@ -35,7 +35,7 @@ class SerializeDeserializePerson {
         Person personObject = (Person) ois.readObject();
         System.out.println("instanceVariable: " + personObject.instanceVariable);
         System.out.println("transientVariable: " + personObject.transientVariable);
-        System.out.println("staticVariable: " + personObject.staticVariable);
+        System.out.println("staticVariable: " + Person.staticVariable);
         System.out.println("finalVariable: " + personObject.finalVariable);
     }
 }
