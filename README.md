@@ -348,7 +348,7 @@
                 }
             }
   ```
-# serialVersionUID
+# SerialVersionUID
  - The serialization runtime associates with each serializable class a version number, called a serialVersionUID.
  - serialVersionUID used during deserialization to verify that the sender and receiver of a serialized object 
  have loaded classes for that object that are compatible with respect to serialization. 
