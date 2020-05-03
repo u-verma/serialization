@@ -187,6 +187,7 @@
     and share its instance variable to the current object. 
     - `Please Note` *instance control flow* will not be executed in child as the object of child gets created via deserialization.
     - As JVM executes the `instance control flow` during deserialization, default constructor should be present for all the non serializable parent.
+    - In the below example the deserialized object will print the `companyName` as `tech-solution` and not `Tech`, based on the above explanation.
 
   ```java
             public class SerializationWithInheritance {
@@ -215,3 +216,4 @@
                 String department = "payments";
             }
   ```  
+# Externalization 
