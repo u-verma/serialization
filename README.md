@@ -111,6 +111,8 @@
   ```java
         private void writeObject(ObjectOutputStream oos) throws Exception 
   ```
+ - If  class want to stop participating in `serialization or in object graph` then it can define the above method and can throw an exception. 
+ This will in-force every user to mark reference of this class as transient. 
  - It is possible to call the default serialization inside `writeObject` method by calling below method.
   ```java
         oos.defaultWriteObject();
@@ -346,3 +348,4 @@
                 }
             }
   ```
+# serialVersionUID
