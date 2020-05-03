@@ -186,7 +186,7 @@
     - During deserialization, JVM executes the `instance control flow` in every non serializable parent 
     and share its instance variable to the current object. 
     - `Please Note` *instance control flow* will not be executed in child as the object of child gets created via deserialization.
-    - As JVM executes the `instance control flow` during deserialization, default constructor should be present for all the non serializable parent.
+    - As JVM executes the `instance control flow` during deserialization, default constructor must be present for all the non serializable parent.
     - In the below example the deserialized object will print the `companyName` as `tech-solution` and not `Tech`, based on the above explanation.
 
   ```java
@@ -216,4 +216,64 @@
                 String department = "payments";
             }
   ```  
+ - `Imp note` Default constructor required only in case of inheritance. To be specific, a class is not a direct child of Object class.
+ -  In below example the Manager class will be deserialized properly.
+ 
+  ```java
+
+          package com.org.easysolution.serialization;
+          
+          import java.io.FileInputStream;
+          import java.io.FileOutputStream;
+          import java.io.ObjectInputStream;
+          import java.io.ObjectOutputStream;
+          import java.io.Serializable;
+          
+          public class SerializationWithoutNoArgConstructor {
+          
+              public static void main(String[] args) throws Exception {
+          
+                  Manager manager = new Manager("TestName", "Engineering");
+                  // Serialization
+          
+                  FileOutputStream fos = new FileOutputStream("manager.txt");
+                  ObjectOutputStream oos = new ObjectOutputStream(fos);
+                  oos.writeObject(manager);
+          
+                  // Deserialization
+                  FileInputStream fis = new FileInputStream("manager.txt");
+                  ObjectInputStream ois = new ObjectInputStream(fis);
+                  Manager manager01 = (Manager) ois.readObject();
+                  System.out.println("name: " + manager01.name);
+                  System.out.println("department: " + manager01.department);
+              }
+          }
+          
+          class Manager implements Serializable {
+              String name;
+              String department;
+          
+              public Manager(String name, String department) {
+                  this.name = name;
+                  this.department = department;
+              }
+          }
+          
+  ```
+  
 # Externalization 
+
+ - To achieve Externalization class should implement the Externalizable interface. It is the child interface of Serializable interface.
+ - In Externalization developer has the full control to serialize the object and JVM doesn't execute its default behavior. 
+ - In serialization JVM take the full control to serialize the object and developer/user can't control any behavior.
+ - Main advantage of Externalize over serialization is that, it is possible to serialize the part of an object in it, wherein it is not possible in serialization.
+ - Externalizable interface is `not a Marker interface` like Serializable. it defines below two method which should be implemented.
+  ```java
+         public void writeExternal(ObjectOutput out) throws IOException;
+            
+         public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException
+  ```
+ - As it is possible to serialize part of the object in externalization, during deserialization JVM has to create the default object. 
+ So, default (`no-argument constructor`) constructor must be present in the class which implements Externalizable.
+ 
+ 
